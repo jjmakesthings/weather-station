@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Weather Station</title>
+    <script src="./main.js" defer></script>
+  </head>
+  <body>
+    <div id="container">
+      <form>
+        <input placeholder="City" id="city" name="city-name"><br>
+
+        <div id="state-country-wrap">
+          <div id="state-wrap"></div>
+            <select id="state" name="state-name">
+              <option value="" disabled selected>State</option>
+            </select>
+          </div>
+          <div id="country-wrap">
+            <select id="country" name="country-name">
+              <option value="" disabled selected>Country</option>
+            </select>
+          </div>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
