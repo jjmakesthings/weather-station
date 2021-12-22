@@ -68,6 +68,33 @@ const dropDownModule = (function () {
   };
   countryDropDown.addEventListener("change", fillStateDropDown);
 
+  // listener on country and state to fill city autofill list
+  let cityOptions = [];
+  const cityInput = document.getElementById("city-list");
+  const fillCityOptions = function () {
+    const selectedCountry = countryDropDown.value;
+    const selectedState = stateDropDown.value;
+    cityOptions = cityList.reduce((list, city) => {
+      if (
+        city.country == selectedCountry &&
+        city.state == selectedState &&
+        city.name &&
+        !list.includes(city.name)
+      ) {
+        list.push(city.name);
+      }
+      return list;
+    }, []);
+    cityInput.innerHTML = "";
+    cityOptions.forEach((city) => {
+      const element = document.createElement("option");
+      element.value = city;
+      cityInput.appendChild(element);
+    });
+  };
+  countryDropDown.addEventListener("change", fillCityOptions);
+  stateDropDown.addEventListener("change", fillCityOptions);
+
   return { cityList };
 })();
 
