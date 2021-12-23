@@ -32,8 +32,6 @@ const formAutofillModule = (function () {
         (selectedCountry ? city.country == selectedCountry : true) && city.state
     );
     hasStates = cityIfStates.length > 0 ? true : false;
-    console.log("hasStates");
-    console.log(hasStates);
     let sortedStateOptions;
     if (hasStates) {
       const stateOptions = cityIfStates.reduce((list, city) => {
@@ -126,8 +124,12 @@ const formAutofillModule = (function () {
   };
 
   //listeners
-  countryInput.addEventListener("change", fillStateOptions);
-  countryInput.addEventListener("change", fillCityOptions);
+  countryInput.addEventListener("change", () => {
+    stateInput.value = "";
+    cityInput.value = "";
+    fillCityOptions();
+    fillStateOptions();
+  });
   stateInput.addEventListener("change", fillCityOptions);
   cityInput.addEventListener("change", fillStateOptions);
 
@@ -215,8 +217,6 @@ const formSubmitModule = (function () {
     const countryName = formData[1];
     const stateName = formData[2];
     let cityId;
-    console.log(formAutofillModule.getHasStates());
-    console.log(formAutofillModule.getHasStates() ? stateName : true);
     if (
       cityName &&
       countryName &&
@@ -234,5 +234,4 @@ const formSubmitModule = (function () {
   };
   cityInput.addEventListener("change", validateAndSubmit);
   stateInput.addEventListener("change", validateAndSubmit);
-  countryInput.addEventListener("change", validateAndSubmit);
 })();
