@@ -23,12 +23,17 @@ const formAutofillModule = (function () {
 
   //states in selected country
   let hasStates = true;
+  const getHasStates = function () {
+    return hasStates;
+  };
   const getStateOptions = function (selectedCountry, selectedCity) {
     const cityIfStates = cityList.filter(
       (city) =>
         (selectedCountry ? city.country == selectedCountry : true) && city.state
     );
     hasStates = cityIfStates.length > 0 ? true : false;
+    console.log("hasStates");
+    console.log(hasStates);
     let sortedStateOptions;
     if (hasStates) {
       const stateOptions = cityIfStates.reduce((list, city) => {
@@ -138,7 +143,7 @@ const formAutofillModule = (function () {
     const state = formatState(stateInput.value);
     return [city, country, state];
   };
-  return { hasStates, getForm };
+  return { getHasStates, getForm };
 })();
 
 const weatherApiModule = (function () {
@@ -179,7 +184,7 @@ const formSubmitModule = (function () {
       const cityQuery = countryQuery.filter((city) => city.name == cityName);
       if (cityQuery.length > 0) {
         const stateQuery = cityQuery.filter((city) => city.state == stateName);
-        if (formAutofillModule.hasStates && stateQuery.length > 0) {
+        if (formAutofillModule.getHasStates() && stateQuery.length > 0) {
           return "An error has occured";
         } else {
           stateInput.classList.add("error");
@@ -210,10 +215,12 @@ const formSubmitModule = (function () {
     const countryName = formData[1];
     const stateName = formData[2];
     let cityId;
+    console.log(formAutofillModule.getHasStates());
+    console.log(formAutofillModule.getHasStates() ? stateName : true);
     if (
       cityName &&
       countryName &&
-      (formAutofillModule.hasStates ? stateName : true)
+      (formAutofillModule.getHasStates() ? stateName : true)
     ) {
       cityId = validate(cityName, stateName, countryName);
       console.log(cityId);
