@@ -5,30 +5,58 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Station</title>
-    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./styles.css" />
     <script src="./main.js" defer></script>
   </head>
   <body>
     <div id="container">
-      <form>
-        <input placeholder="City..." id="city" name="city-name" list="city-list"><br>
-        <datalist id="city-list">
-        </datalist>
-        <div id="state-country-wrap">
+      <div id="form-wrap">
+        <h1>Find your city</h1>
+        <form>
+          <div id="city-state-wrap">
+            <div id="city-wrap">
+              <input
+                placeholder="City..."
+                id="city"
+                name="city-name"
+                list="city-list"
+              />
+              <datalist id="city-list"> </datalist>
+            </div>
+            <div id="state-wrap">
+              <input
+                placeholder="State..."
+                id="state"
+                name="state-name"
+                list="state-list"
+              />
+              <datalist id="state-list"> </datalist>
+            </div>
+          </div>
           <div id="country-wrap">
-            <input placeholder="Country..." id="country" name="country-name" list="country-list"><br>
-            <datalist id="country-list">
-            </datalist>
+            <input
+              placeholder="Country..."
+              id="country"
+              name="country-name"
+              list="country-list"
+            />
+            <datalist id="country-list"> </datalist>
           </div>
-          <div id="state-wrap"></div>
-            <input placeholder="State..." id="state" name="state-name" list="state-list"><br>
-            <datalist id="state-list">
-            </datalist>
-          </div>
+          <div id="errors"></div>
+        </form>
+      </div>
+      <div id="weather-wrap">
+        <h1 id="location-name">Weather</h1>
+        <h2 id="weather-description">Cloudy</h2>
+        <div id="temps">
+          <h2>Feel</h2>
+          <h3 id="temp-feel"></h3>
+          <h2>High</h2>
+          <h3 id="temp-high"></h3>
+          <h2>Low</h2>
+          <h3 id="temp-low"></h3>
         </div>
-        <div id="errors">
-        </div>
-      </form>
+      </div>
     </div>
   </body>
 </html>
