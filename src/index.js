@@ -160,7 +160,28 @@ const weatherApiModule = (function () {
 
 const weatherControlModule = (function () {
   const weatherElement = document.getElementById("weather");
+  let weatherDescription;
+  let tempFeels;
+  let tempHigh;
+  let tempLow;
+  let locationName;
+  const weatherDescriptionElem = document.getElementById("weather-description");
+  const tempFeelsElem = document.getElementById("temp-feel");
+  const tempHighElem = document.getElementById("temp-high");
+  const tempLowElem = document.getElementById("temp-low");
+  const locationNameElem = document.getElementById("location-name");
   const logWeather = function (weather) {
+    weatherDescription = weather.weather[0].description;
+    weatherDescriptionElem.innerText = weatherDescription;
+    tempFeels = weather.main.feels_like;
+    tempFeelsElem.innerText = tempFeels;
+    tempHigh = weather.main.temp_max;
+    tempHighElem.innerText = tempHigh;
+    tempLow = weather.main.temp_min;
+    tempLowElem.innerText = tempLow;
+    locationName = weather.name;
+    locationNameElem.innerText = locationName;
+
     console.log(weather);
   };
 
