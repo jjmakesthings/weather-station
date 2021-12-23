@@ -11,22 +11,23 @@
   <body>
     <div id="container">
       <form>
-        <input placeholder="City" id="city" name="city-name" list="city-list"><br>
+        <input placeholder="City..." id="city" name="city-name" list="city-list"><br>
         <datalist id="city-list">
         </datalist>
         <div id="state-country-wrap">
           <div id="country-wrap">
-            <input placeholder="Country" id="country" name="country-name" list="country-list"><br>
+            <input placeholder="Country..." id="country" name="country-name" list="country-list"><br>
             <datalist id="country-list">
             </datalist>
           </div>
           <div id="state-wrap"></div>
-            <select id="state" name="state-name">
-              <option value="" disabled selected>State</option>
-            </select>
+            <input placeholder="State..." id="state" name="state-name" list="state-list"><br>
+            <datalist id="state-list">
+            </datalist>
           </div>
         </div>
-        <input type="button" id="submit" value="Show Weather">
+        <div id="errors">
+        </div>
       </form>
     </div>
   </body>
