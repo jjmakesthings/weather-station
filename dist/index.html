@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Weather Station</title>
+    <link rel="stylesheet" href="./styles.css">
     <script src="./main.js" defer></script>
   </head>
   <body>
@@ -14,17 +15,18 @@
         <datalist id="city-list">
         </datalist>
         <div id="state-country-wrap">
+          <div id="country-wrap">
+            <input placeholder="Country" id="country" name="country-name" list="country-list"><br>
+            <datalist id="country-list">
+            </datalist>
+          </div>
           <div id="state-wrap"></div>
             <select id="state" name="state-name">
               <option value="" disabled selected>State</option>
             </select>
           </div>
-          <div id="country-wrap">
-            <select id="country" name="country-name">
-              <option value="" disabled selected>Country</option>
-            </select>
-          </div>
         </div>
+        <input type="button" id="submit" value="Show Weather">
       </form>
     </div>
   </body>

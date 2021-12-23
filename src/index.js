@@ -1,19 +1,11 @@
 import cityObject from "./city.list.json";
+import countries from "./countries.json";
 const APIKey = "098aad25ae5f2e1c06ba7db2163ed759";
 
-const dropDownModule = (function () {
-  //complete list of city ids
-  const cityList = Object.values(cityObject);
+//list that contains city objects
+const cityList = Object.values(cityObject);
 
-  //complete list of countries
-  const countryOptions = cityList.reduce((list, city) => {
-    if (city.country && !list.includes(city.country)) {
-      list.push(city.country);
-    }
-    return list;
-  }, []);
-  const sortedCountryOptions = countryOptions.sort((a, b) => (a > b ? 1 : -1));
-
+const locationFormModule = (function () {
   //states in selected country
   let sortedStateOptions = [];
   let hasStates = true;
@@ -35,18 +27,30 @@ const dropDownModule = (function () {
     return sortedStateOptions;
   };
 
-  //fill country drop down
-  const countryDropDown = document.getElementById("country");
+  //list that contains full country names
+  const sortedCountryOptions = countries
+    .map((country) => country.name)
+    .sort((a, b) => (a > b ? 1 : -1));
+  //fill country autofill list
+  const countryListElem = document.getElementById("country-list");
   sortedCountryOptions.forEach((country) => {
-    const option = document.createElement("option");
-    option.innerText = country;
-    countryDropDown.appendChild(option);
+    const element = document.createElement("option");
+    element.value = country;
+    countryListElem.appendChild(element);
   });
-
+  // function to get country abbrv out of form
+  const getCountryAbbrv = function (countryName) {
+    const query = countries.filter((country) => country.name == countryName);
+    if (query.length > 0) {
+      return query[0].code;
+    }
+  };
   //listener on country and fill state drop down
   const stateDropDown = document.getElementById("state");
   const fillStateDropDown = function (e) {
-    const selectedCountry = e.target.value;
+    console.log(e.target.value);
+    const selectedCountry = getCountryAbbrv(e.target.value);
+    console.log(selectedCountry);
     getStateOptions(selectedCountry);
     stateDropDown.innerHTML = "";
     // add title option
@@ -66,13 +70,14 @@ const dropDownModule = (function () {
       });
     } else stateDropDown.classList.add("no-states");
   };
-  countryDropDown.addEventListener("change", fillStateDropDown);
+  const countryInput = document.getElementById("country");
+  countryInput.addEventListener("change", fillStateDropDown);
 
   // listener on country and state to fill city autofill list
   let cityOptions = [];
-  const cityInput = document.getElementById("city-list");
-  const fillCityOptions = function () {
-    const selectedCountry = countryDropDown.value;
+  const cityListElem = document.getElementById("city-list");
+  const fillCityOptions = function (e) {
+    const selectedCountry = getCountryAbbrv(countryInput.value);
     const selectedState = stateDropDown.value;
     cityOptions = cityList.reduce((list, city) => {
       if (
@@ -85,22 +90,31 @@ const dropDownModule = (function () {
       }
       return list;
     }, []);
-    cityInput.innerHTML = "";
+    cityListElem.innerHTML = "";
     cityOptions.forEach((city) => {
       const element = document.createElement("option");
       element.value = city;
-      cityInput.appendChild(element);
+      cityListElem.appendChild(element);
     });
   };
-  countryDropDown.addEventListener("change", fillCityOptions);
+  countryInput.addEventListener("change", fillCityOptions);
   stateDropDown.addEventListener("change", fillCityOptions);
 
-  return { cityList };
+  const cityInput = document.getElementById("city");
+
+  //function to extract form values
+  const getForm = function () {
+    const city = cityInput.value;
+    const country = getCountryAbbrv(countryInput.value);
+    const state = stateDropDown.value;
+    return [city, country, state];
+  };
+  return { cityList, getForm };
 })();
 
 // functions to find weather
 const getCityId = function (cityName, state, country) {
-  const result = dropDownModule.cityList.filter(
+  const result = cityList.filter(
     (city) =>
       city.name == cityName && city.state == state && city.country == country
   );
@@ -116,4 +130,10 @@ const fetchById = async function (cityId) {
   return data;
 };
 
-fetchById(getCityId("Buffalo", "NY", "US")).then((data) => console.log(data));
+document.getElementById("submit").addEventListener("click", (e) => {
+  const location = locationFormModule.getForm();
+  fetchById(getCityId(location[0], location[2], location[1])).then((data) =>
+    console.log(data)
+  );
+});
+//fetchById(getCityId("Buffalo", "NY", "US")).then((data) => console.log(data));
