@@ -199,6 +199,7 @@ const formSubmitModule = (function () {
     if (cityId) {
       return cityId;
     }
+    formErrorElem.innerText = "";
     formErrorElem.innerText = getErrorMessage(cityName, stateName, countryName);
   };
   const validateAndSubmit = function () {
