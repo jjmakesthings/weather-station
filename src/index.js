@@ -246,10 +246,10 @@ const formSubmitModule = (function () {
   };
   const validate = function (cityName, stateName, countryName) {
     let cityId = getCityId(cityName, stateName, countryName);
+    formErrorElem.innerText = "";
     if (cityId) {
       return cityId;
     }
-    formErrorElem.innerText = "";
     formErrorElem.innerText = getErrorMessage(cityName, stateName, countryName);
   };
   const validateAndSubmit = function () {
