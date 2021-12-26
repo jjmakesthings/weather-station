@@ -1,6 +1,12 @@
 import cityObject from "./city.list.json";
 import countries from "./countries.json";
+import cloudy from "./cloudy.jpeg";
+import sunny from "./sunny.jpeg";
+
 const APIKey = "098aad25ae5f2e1c06ba7db2163ed759";
+
+//
+document.body.style.backgroundImage = `url(${cloudy})`;
 
 //list that contains city objects
 const cityList = Object.values(cityObject);
@@ -160,28 +166,44 @@ const weatherApiModule = (function () {
 
 const weatherControlModule = (function () {
   const weatherElement = document.getElementById("weather");
+  let cityId;
   let weatherDescription;
+  // temps saved in kelvin
   let tempFeels;
+  let tempReal;
   let tempHigh;
   let tempLow;
   let locationName;
   const weatherDescriptionElem = document.getElementById("weather-description");
-  const tempFeelsElem = document.getElementById("temp-feel");
+  const tempRealElem = document.getElementById("temp-real");
   const tempHighElem = document.getElementById("temp-high");
   const tempLowElem = document.getElementById("temp-low");
   const locationNameElem = document.getElementById("location-name");
+  const kelvinToFarenheit = function (kTemp) {
+    const fTemp = (kTemp - 273.15) * (9 / 5) + 32;
+    return Math.round(fTemp);
+  };
+  const kelvinToCelcius = function (kTemp) {
+    const cTemp = kTemp - 273.15;
+    return Math.round(cTemp);
+  };
   const logWeather = function (weather) {
+    cityId = weather.id;
     weatherDescription = weather.weather[0].description;
     weatherDescriptionElem.innerText = weatherDescription;
-    tempFeels = weather.main.feels_like;
-    tempFeelsElem.innerText = tempFeels;
-    tempHigh = weather.main.temp_max;
+    tempReal = kelvinToFarenheit(weather.main.temp);
+    tempRealElem.innerText = tempReal;
+    tempHigh = kelvinToFarenheit(weather.main.temp_max);
     tempHighElem.innerText = tempHigh;
-    tempLow = weather.main.temp_min;
+    tempLow = kelvinToFarenheit(weather.main.temp_min);
     tempLowElem.innerText = tempLow;
     locationName = weather.name;
     locationNameElem.innerText = locationName;
-
+    if (weatherDescription.includes("cloud")) {
+      document.body.style.backgroundImage = `url(${cloudy})`;
+    } else if (weatherDescription.includes("clear")) {
+      document.body.style.backgroundImage = `url(${sunny})`;
+    }
     console.log(weather);
   };
 
