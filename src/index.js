@@ -2,6 +2,8 @@ import cityObject from "./city.list.json";
 import countries from "./countries.json";
 import cloudy from "./cloudy.jpeg";
 import sunny from "./sunny.jpeg";
+import rainy from "./rainy.jpeg";
+import snowy from "./snowy.jpeg";
 
 const APIKey = "098aad25ae5f2e1c06ba7db2163ed759";
 
@@ -187,6 +189,12 @@ const weatherControlModule = (function () {
     const cTemp = kTemp - 273.15;
     return Math.round(cTemp);
   };
+  const backgrounds = {
+    cloud: cloudy,
+    rain: rainy,
+    clear: sunny,
+    snow: snowy,
+  };
   const logWeather = function (weather) {
     cityId = weather.id;
     weatherDescription = weather.weather[0].description;
@@ -199,11 +207,16 @@ const weatherControlModule = (function () {
     tempLowElem.innerText = tempLow;
     locationName = weather.name;
     locationNameElem.innerText = locationName;
-    if (weatherDescription.includes("cloud")) {
-      document.body.style.backgroundImage = `url(${cloudy})`;
-    } else if (weatherDescription.includes("clear")) {
-      document.body.style.backgroundImage = `url(${sunny})`;
-    }
+    Object.keys(backgrounds).forEach((item) => {
+      if (weatherDescription.includes(item)) {
+        document.body.style.backgroundImage = `url(${backgrounds[item]})`;
+      }
+    });
+    // if (weatherDescription.includes("cloud")) {
+    //   document.body.style.backgroundImage = `url(${cloudy})`;
+    // } else if (weatherDescription.includes("clear")) {
+    //   document.body.style.backgroundImage = `url(${sunny})`;
+    // }
     console.log(weather);
   };
 

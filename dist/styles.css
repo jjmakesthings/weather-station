@@ -1,6 +1,7 @@
 body {
   font-family: Sans-Serif;
   margin: 0px;
+  background-size: cover;
 }
 * {
   box-sizing: border-box;
